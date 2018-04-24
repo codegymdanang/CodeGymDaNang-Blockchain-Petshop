@@ -108,6 +108,24 @@ App = {
       });
     });
 
+  },
+
+ markSingleAdopted: function(petId){
+    var adoptionInstance;
+
+    App.contracts.Adoption.deployed().then(function(instance) {
+      adoptionInstance = instance;
+
+      return adoptionInstance.getAdopters.call();
+    }).then(function(adopters) {
+      if (adopters[petId] !== '0x0000000000000000000000000000000000000000') {
+        var x = $(".panel-pet .panel-body button")[petId];
+        x.innerText = "Success!";
+        x.disabled = true;
+      }
+    }).catch(function(err) {
+      console.log(err.message);
+    });
   }
 
 //0x5AF033243D526FF5cdeBBA77EabfF1f17D9a294A
